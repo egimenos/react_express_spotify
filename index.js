@@ -5,6 +5,8 @@ const express = require("express");
 
 const app = express();
 
+const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } = process.env;
+
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -28,9 +30,9 @@ app.get("/login", (req, res) => {
 
   const scope = "user-read-private user-read-email";
   const queryParams = querystring.stringify({
-    client_id: process.env.CLIENT_ID,
+    client_id: CLIENT_ID,
     response_type: "code",
-    redirect_uri: process.env.REDIRECT_URI,
+    redirect_uri: REDIRECT_URI,
     state: state,
     scope: scope,
   });
@@ -46,12 +48,12 @@ app.get("/callback", (req, res) => {
     data: querystring.stringify({
       grant_type: "authorization_code",
       code: code,
-      redirect_uri: process.env.REDIRECT_URI,
+      redirect_uri: REDIRECT_URI,
     }),
     headers: {
       "content-type": "application/x-www-form-urlencoded",
       Authorization: `Basic ${new Buffer.from(
-        `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`
+        `${CLIENT_ID}:${CLIENT_SECRET}`
       ).toString("base64")}`,
     },
   })
@@ -80,7 +82,7 @@ app.get("/refresh_token", (req, res) => {
     headers: {
       "content-type": "application/x-www-form-urlencoded",
       Authorization: `Basic ${new Buffer.from(
-        `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`
+        `${CLIENT_ID}:${CLIENT_SECRET}`
       ).toString("base64")}`,
     },
   })
