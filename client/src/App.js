@@ -63,7 +63,7 @@ function App() {
                 <TopArtists />
               </Route>
               <Route path="/top-tracks">
-                <h1>Top Tracks</h1>
+                <TopTracks />
               </Route>
               <Route path="/playlists/:id">
                 <h1>Playlist</h1>
